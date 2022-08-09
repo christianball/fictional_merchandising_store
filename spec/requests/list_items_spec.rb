@@ -7,8 +7,8 @@ RSpec.describe 'Listing items', :type => :request do
     item_two = create(:item, code: 'TWo', name: 'Two', price: 22.22)
 
     expected_response = [
-      item_one.as_json(only: [:id, :code, :name, :price]),
-      item_two.as_json(only: [:id, :code, :name, :price])
+      item_one.as_json(except: [:created_at, :updated_at]),
+      item_two.as_json(except: [:created_at, :updated_at])
     ].to_json
 
     get '/items'
