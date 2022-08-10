@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Updating item', :type => :request do
 
-  it 'renders 200, updates record with provided values, renders item with expected values' do
+  it 'returns 200 with expected response and updates record with provided values' do
     item = create(:item)
 
     put "/items/#{item.id}", params: {
@@ -20,7 +20,7 @@ RSpec.describe 'Updating item', :type => :request do
     )
   end
 
-  it "renders 404 'item not found' when no item with provided ID exists in database" do
+  it "returns 404 with expected response when no item with provided ID exists in database" do
     put "/items/123456789", params: {
       "item" => {
         "code" => "TROUSERS",
@@ -30,22 +30,26 @@ RSpec.describe 'Updating item', :type => :request do
     }
 
     expect(response).to have_http_status(404)
-    expect(response.body).to eq('item not found')
+    expect(response.body).to eq("{\"error\":\"No entry found with ID 123456789.\"}")
   end
 
-  # it 'returns 422 unprocessable request if a required value is missing' do
-  #   item = create(:item)
-  #
-  #   put "/items/#{item.id}", params: {
-  #     "item" => {
-  #       "code" => "TROUSERS",
-  #       "name" => "Reedsy Trousers",
-  #       "price" => nil
-  #     }
-  #   }
-  #
-  #   expect(response).to have_http_status(422)
-  #   expect(response.body).to eq('unprocessable request')
-  # end
+  it 'returns 422 with expected response when a provided value is invalid' do
+    item = create(:item)
+
+    put "/items/#{item.id}", params: {
+      "item" => {
+        "code" => "T",
+        "name" => nil,
+        "price" => "0.9"
+      }
+    }
+
+    expect(response).to have_http_status(422)
+    expect(response.body).to include(
+      "code\":[\"is too short (minimum is 2 characters)",
+      "name\":[\"can't be blank\"",
+      "price\":[\"must be greater than or equal to 1\""
+    )
+  end
 
 end
