@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_forgery_protection if: -> { Rails.env.development? }
+  # To allow local API testing of updating item records by developers
+  # otherwise get ActionController::InvalidAuthenticityToken in ItemsController#update
 
   def index
     @items = Item.all
