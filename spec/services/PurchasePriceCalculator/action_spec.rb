@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe PurchasePriceCalculator::Action do
 
   it 'calculates the total price from a purchase list' do
-    mug = create(:item, code: 'MUG', name: 'mug', price: 6.00)
-    tshirt = create(:item, code: 'TSHIRT', name: 'tshirt', price: 15.00)
+    tshirt = create(:item, code: 'TSHIRT', name: 'Tshirt', price: 6.00)
+    mug = create(:item, code: 'MUG', name: 'Mug', price: 15.00)
     hoodie = create(:item, code: 'HOODIE', name: 'hoodie', price: 20.00)
 
     purchase_list = [
-      { item: mug, quantity: '2' },
-      { item: tshirt, quantity: '4'},
+      { item: tshirt, quantity: '2' },
+      { item: mug, quantity: '4'},
       { item: hoodie, quantity: '1'}
     ]
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Checking total price', :type => :request do
 
   it 'returns 200 with expected response' do
-    item = create(:item, code: 'MUG', name: 'mug', price: 20)
+    item = create(:item, code: 'TSHIRT', name: 'Tshirt', price: 20)
 
     post '/items/total', params: {
       "list": [

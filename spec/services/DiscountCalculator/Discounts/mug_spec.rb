@@ -10,11 +10,11 @@ RSpec.describe DiscountCalculator::Discounts::Mug do
     purchase_list = [
       {
         item: mug_one,
-        quantity: '1'
+        quantity: '10'
       },
       {
         item: mug_two,
-        quantity: '2'
+        quantity: '10'
       },
       {
         item: hoodie,
@@ -24,17 +24,42 @@ RSpec.describe DiscountCalculator::Discounts::Mug do
 
     calculated_discount = described_class.new(purchase_list: purchase_list).amount
 
-    expect(calculated_discount).to eq(15.0)
+    expect(calculated_discount).to eq(12.0)
+  end
+
+  it 'returns an amount 30% of combined mug costs when discount ceiling is reached' do
+    mug_one = create(:item, code: 'MUG', name: 'Mug One', price: 25.0)
+    mug_two = create(:item, code: 'MUG', name: 'Mug Two', price: 25.0)
+    mug_three = create(:item, code: 'MUG', name: 'Mug Three', price: 50.0)
+
+    purchase_list = [
+      {
+        item: mug_one,
+        quantity: '50'
+      },
+      {
+        item: mug_two,
+        quantity: '50'
+      },
+      {
+        item: mug_three,
+        quantity: '50'
+      }
+    ]
+
+    calculated_discount = described_class.new(purchase_list: purchase_list).amount
+
+    expect(calculated_discount).to eq(1500)
   end
 
   it 'returns 0 when discount is not applicable' do
-    mug = create(:item, code: 'MUG', name: 'Mug', price: 10.0)
+    mug = create(:item, code: 'MUG', name: 'Mug', price: 100.0)
     hoodie = create(:item, code: 'HOODIE', name: 'Hoodie', price: 30.0)
 
     purchase_list = [
       {
         item: mug,
-        quantity: '2'
+        quantity: '9'
       },
       {
         item: hoodie,
