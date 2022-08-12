@@ -5,17 +5,15 @@ module DiscountCalculator
       CODE = 'MUG'
       DISCOUNT_REQUIREMENT = 3
       DISCOUNT_PERCENTAGE_MULTIPLE = 0.3
-      private_constant :CODE, :DISCOUNT_REQUIREMENT
+      private_constant :CODE, :DISCOUNT_REQUIREMENT, :DISCOUNT_PERCENTAGE_MULTIPLE
 
       def initialize(purchase_list:)
         @purchase_list = purchase_list
+        @code_purchase_list = code_purchase_list
+        @code_purchase_volume = code_purchase_volume
       end
 
       def amount
-        code_purchase_list = purchase_list.select { _1.fetch(:item).code == CODE }
-
-        code_purchase_volume = code_purchase_list.pluck(:quantity).map(&:to_i).sum
-
         return 0 if code_purchase_volume < DISCOUNT_REQUIREMENT
 
         discount_amount = code_purchase_list.inject(0) do |discount, purchase|
@@ -27,6 +25,14 @@ module DiscountCalculator
       private
 
       attr_reader :purchase_list
+
+      def code_purchase_list
+        purchase_list.select { _1.fetch(:item).code == CODE }
+      end
+
+      def code_purchase_volume
+        code_purchase_list.pluck(:quantity).map(&:to_i).sum
+      end
 
     end
   end

@@ -22,11 +22,12 @@ module DiscountCalculator
 
     def product_code_discounts_total
       purchase_list.pluck(:item).pluck(:code).inject(0) do |discount_total, item_code|
-        # Refactor in next commit
-        if item_code == 'MUG'
-          discount_total + DISCOUNTS.fetch(item_code).new(purchase_list: purchase_list).amount
+        discount = DISCOUNTS[item_code]
+
+        if discount.present?
+          discount_total + discount.new(purchase_list: purchase_list).amount
         else
-          discount_total + 0
+          discount_total
         end
       end
     end
