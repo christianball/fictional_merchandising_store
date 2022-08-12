@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TotalPriceCalculator do
+RSpec.describe PurchasePriceCalculator::Action do
 
   it 'calculates the total price from a purchase list' do
     mug = create(:item, code: 'MUG', name: 'mug', price: 6.00)
@@ -8,9 +8,9 @@ RSpec.describe TotalPriceCalculator do
     hoodie = create(:item, code: 'HOODIE', name: 'hoodie', price: 20.00)
 
     purchase_list = [
-      { "item_id"=>"#{mug.id}", "quantity"=>"2" },
-      { "item_id"=>"#{tshirt.id}", "quantity"=>"4" },
-      { "item_id"=>"#{hoodie.id}", "quantity"=>"1" }
+      { item: mug, quantity: '2' },
+      { item: tshirt, quantity: '4'},
+      { item: hoodie, quantity: '1'}
     ]
 
     calculated_total_price = described_class.new(purchase_list: purchase_list).call
