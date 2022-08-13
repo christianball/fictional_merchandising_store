@@ -121,7 +121,22 @@ RSpec.describe 'Checking total price', :type => :request do
 
     expect(response.content_type).to eq('application/json; charset=utf-8')
     expect(response).to have_http_status(404)
-    expect(response.body).to eq('Error: No items of specified IDs exist')
+    expect(response.body).to eq("{\"error\":\"Couldn't find Item with 'id'=123456\"}")
+  end
+
+  it 'returns status: 422 with error message if a purchase quantity cannot be read' do
+    post '/items/total', params: {
+      "list": [
+          {
+              "item_id": "#{mug.id}",
+              "quantity": "A"
+          }
+      ]
+    }
+
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    expect(response).to have_http_status(422)
+    expect(response.body).to eq("{\"errors\":\"Purchase quantity for item #{mug.id} cannot be read\"}")
   end
 
 end

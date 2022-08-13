@@ -1,8 +1,17 @@
+require_relative '../errors/errors.rb'
+
 class ItemsController < ApplicationController
 
   skip_forgery_protection if: -> { Rails.env.development? }
   # To allow local API testing of updating item records by developers
   # otherwise get ActionController::InvalidAuthenticityToken in ItemsController#update
+
+  rescue_from PurchaseListError do |e|
+    render(
+      json: { errors: e.message },
+      status: 422
+    )
+  end
 
   def index
     @items = Item.all
@@ -19,15 +28,10 @@ class ItemsController < ApplicationController
   end
 
   def total
-    @items = Item.where(id: purchase_list_params.pluck('item_id'))
+    purchase_list = PurchaseList.new(input: purchase_list_params).value
+    total_price = PurchasePriceCalculator::Action.new(purchase_list: purchase_list).call
 
-    if @items.empty?
-      render json: 'Error: No items of specified IDs exist', status: 404
-    else
-      total_price = PurchasePriceCalculator::Action.new(purchase_list: purchase_list).call
-
-      render json: "Total price: £#{total_price}", status: 200
-    end
+    render json: "Total price: £#{total_price}", status: 200
   end
 
   private
@@ -38,15 +42,6 @@ class ItemsController < ApplicationController
 
   def purchase_list_params
     params.permit(list: [:item_id, :quantity])[:list]
-  end
-
-  def purchase_list
-    purchase_list_params.map do |purchase|
-      {
-        item: @items.select { _1.id == purchase.fetch('item_id').to_i }.first,
-        quantity: purchase.fetch('quantity')
-      }
-    end
   end
 
   def serialize_item(item=nil)

@@ -20,7 +20,7 @@ module PurchasePriceCalculator
     end
 
     def individual_list_row_cost(list_row)
-      item_quantity = list_row.fetch(:quantity).to_i
+      item_quantity = list_row.fetch(:quantity)
       item_price = list_row.fetch(:item).price
 
       item_quantity * item_price

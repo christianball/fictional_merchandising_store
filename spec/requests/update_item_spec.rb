@@ -30,7 +30,7 @@ RSpec.describe 'Updating item', :type => :request do
     }
 
     expect(response).to have_http_status(404)
-    expect(response.body).to eq("{\"error\":\"No entry found with ID 123456789.\"}")
+    expect(response.body).to eq("{\"error\":\"Couldn't find Item with 'id'=123456789\"}")
   end
 
   it 'returns 422 with expected response when a provided value is invalid' do

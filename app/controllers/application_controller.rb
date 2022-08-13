@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound do |e|
     render(
-      json: { error: "No entry found with ID #{params[:id]}." },
+      json: { error: "#{e.message}" },
       status: 404
     )
   end

@@ -8,9 +8,9 @@ RSpec.describe PurchasePriceCalculator::Action do
     hoodie = create(:item, code: 'HOODIE', name: 'hoodie', price: 20.00)
 
     purchase_list = [
-      { item: tshirt, quantity: '2' },
-      { item: mug, quantity: '4'},
-      { item: hoodie, quantity: '1'}
+      { item: tshirt, quantity: 2 },
+      { item: mug, quantity: 4},
+      { item: hoodie, quantity: 1}
     ]
 
     calculated_total_price = described_class.new(purchase_list: purchase_list).call
