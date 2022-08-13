@@ -28,9 +28,7 @@ module PurchasePriceCalculator
     end
 
     def total_discount
-      discount_calculator.new(
-        original_price: total_price, purchase_list: purchase_list
-      ).call
+      discount_calculator.new(purchase_list: purchase_list).call
     end
 
   end

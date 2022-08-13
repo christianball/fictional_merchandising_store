@@ -7,8 +7,7 @@ module DiscountCalculator
     }
     private_constant :DISCOUNTS
 
-    def initialize(original_price:, purchase_list:)
-      @original_price = original_price
+    def initialize(purchase_list:)
       @purchase_list = purchase_list
     end
 

@@ -14,7 +14,9 @@ RSpec.describe PurchasePriceCalculator::Action do
     example_discount = 25
     stubbed_discount_calculator = instance_double(DiscountCalculator::Action, call: example_discount)
 
-    allow(stubbed_discount_calculator_class).to receive(:new).and_return(stubbed_discount_calculator)
+    expect(stubbed_discount_calculator_class).to receive(:new)
+                                             .with(purchase_list: purchase_list)
+                                             .and_return(stubbed_discount_calculator)
 
     calculated_total_price = described_class.new(
       purchase_list: purchase_list,
