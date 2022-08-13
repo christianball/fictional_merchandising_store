@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
 module DiscountCalculator
-  module Discounts
+  module ProductCodeDiscounts
     class Mug
       CODE = 'MUG'
       DISCOUNT_REQUIREMENT = 10
       DISCOUNT_CEILING_PURCHASE_VOLUME = 150
       DISCOUNT_CEILING_PERCENTAGE_MULTIPLE = 0.3
-
       private_constant :CODE, :DISCOUNT_REQUIREMENT
 
       def initialize(purchase_list:)
@@ -46,14 +45,14 @@ module DiscountCalculator
       end
 
       def discount_percentage_from_purchases(index = 1, discount_level_base = 0, percentage = 0)
-        return percentage if index == code_purchase_volume + 1
-
         index += 1
 
         if index - discount_level_base == 10
           discount_level_base += 10
           percentage += 0.02
         end
+
+        return percentage if index == code_purchase_volume
 
         discount_percentage_from_purchases(index, discount_level_base, percentage)
       end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DiscountCalculator::Discounts::Mug do
+RSpec.describe DiscountCalculator::ProductCodeDiscounts::Mug do
   it 'calculates and returns the correct discount amount' do
     mug_one = create(:item, code: 'MUG', name: 'Mug One', price: 10.0)
     mug_two = create(:item, code: 'MUG', name: 'Mug Two', price: 20.0)

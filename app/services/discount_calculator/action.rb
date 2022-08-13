@@ -3,8 +3,8 @@
 module DiscountCalculator
   class Action
     DISCOUNTS = {
-      'MUG' => Discounts::Mug,
-      'TSHIRT' => Discounts::Tshirt
+      'MUG' => ProductCodeDiscounts::Mug,
+      'TSHIRT' => ProductCodeDiscounts::Tshirt
     }.freeze
     private_constant :DISCOUNTS
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module DiscountCalculator
-  module Discounts
+  module ProductCodeDiscounts
     class Tshirt
       CODE = 'TSHIRT'
       DISCOUNT_REQUIREMENT = 3
