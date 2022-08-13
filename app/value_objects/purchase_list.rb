@@ -3,8 +3,6 @@
 require_relative '../errors/errors'
 
 class PurchaseList
-  include ActiveModel::Validations
-
   def initialize(input:)
     @value = useable_purchase_list(input)
   end
