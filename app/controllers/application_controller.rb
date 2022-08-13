@@ -1,8 +1,9 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
+class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound do |e|
     render(
-      json: { error: "#{e.message}" },
+      json: { error: e.message.to_s },
       status: 404
     )
   end
@@ -13,5 +14,4 @@ class ApplicationController < ActionController::Base
       status: 422
     )
   end
-
 end

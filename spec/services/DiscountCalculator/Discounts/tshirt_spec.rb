@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe DiscountCalculator::Discounts::Tshirt do
-
   it 'calculates and returns the correct discount amount' do
     tshirt_one = create(:item, code: 'TSHIRT', name: 'Tshirt One', price: 10.0)
     tshirt_two = create(:item, code: 'TSHIRT', name: 'Tshirt Two', price: 20.0)
@@ -46,5 +47,4 @@ RSpec.describe DiscountCalculator::Discounts::Tshirt do
 
     expect(calculated_discount).to eq(0)
   end
-
 end

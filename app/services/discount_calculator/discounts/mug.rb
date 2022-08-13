@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module DiscountCalculator
   module Discounts
     class Mug
-
       CODE = 'MUG'
       DISCOUNT_REQUIREMENT = 10
       DISCOUNT_CEILING_PURCHASE_VOLUME = 150
@@ -18,7 +19,7 @@ module DiscountCalculator
       def amount
         return 0 if code_purchase_volume < DISCOUNT_REQUIREMENT
 
-        discount_amount = code_purchase_list.inject(0) do |discount, purchase|
+        code_purchase_list.inject(0) do |discount, purchase|
           discounted_item_price = discount_percentage_multiple * purchase.fetch(:item).price
           discount + discounted_item_price * purchase.fetch(:quantity).to_i
         end
@@ -44,16 +45,18 @@ module DiscountCalculator
         end
       end
 
-      def discount_percentage_from_purchases(index=1, discount_level_base=0, percentage=0)
+      def discount_percentage_from_purchases(index = 1, discount_level_base = 0, percentage = 0)
         return percentage if index == code_purchase_volume + 1
 
-        if index - discount_level_base == 10
-          discount_percentage_from_purchases(index+=1, discount_level_base+=10, percentage+=0.02)
-        else
-          discount_percentage_from_purchases(index+=1, discount_level_base, percentage)
-        end
-      end
+        index += 1
 
+        if index - discount_level_base == 10
+          discount_level_base += 10
+          percentage += 0.02
+        end
+
+        discount_percentage_from_purchases(index, discount_level_base, percentage)
+      end
     end
   end
 end

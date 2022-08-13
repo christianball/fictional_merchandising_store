@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe DiscountCalculator::Discounts::Mug do
-
   it 'calculates and returns the correct discount amount' do
     mug_one = create(:item, code: 'MUG', name: 'Mug One', price: 10.0)
     mug_two = create(:item, code: 'MUG', name: 'Mug Two', price: 20.0)
@@ -71,5 +72,4 @@ RSpec.describe DiscountCalculator::Discounts::Mug do
 
     expect(calculated_discount).to eq(0)
   end
-
 end

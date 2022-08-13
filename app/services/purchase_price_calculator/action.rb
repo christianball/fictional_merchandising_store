@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module PurchasePriceCalculator
   class Action
-
     def initialize(purchase_list:, discount_calculator: DiscountCalculator::Action)
       @purchase_list = purchase_list
       @discount_calculator = discount_calculator
@@ -30,6 +31,5 @@ module PurchasePriceCalculator
     def total_discount
       discount_calculator.new(purchase_list: purchase_list).call
     end
-
   end
 end

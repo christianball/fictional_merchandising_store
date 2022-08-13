@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 module DiscountCalculator
   class Action
-
     DISCOUNTS = {
       'MUG' => Discounts::Mug,
       'TSHIRT' => Discounts::Tshirt
-    }
+    }.freeze
     private_constant :DISCOUNTS
 
     def initialize(purchase_list:)
@@ -30,6 +31,5 @@ module DiscountCalculator
         end
       end
     end
-
   end
 end

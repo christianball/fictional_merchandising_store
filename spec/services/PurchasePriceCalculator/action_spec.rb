@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PurchasePriceCalculator::Action do
-
   it 'calculates a total price factoring in discount from provided discount calculator' do
     item = create(:item, code: 'ITEM', name: 'Reedsy Item', price: 100)
 
     purchase_list = [
-      { item: item, quantity: 1}
+      { item: item, quantity: 1 }
     ]
 
     stubbed_discount_calculator_class = class_double(DiscountCalculator::Action)
@@ -16,7 +17,7 @@ RSpec.describe PurchasePriceCalculator::Action do
 
     expect(stubbed_discount_calculator_class).to receive(:new)
                                              .with(purchase_list: purchase_list)
-                                             .and_return(stubbed_discount_calculator)
+      .and_return(stubbed_discount_calculator)
 
     calculated_total_price = described_class.new(
       purchase_list: purchase_list,
@@ -25,6 +26,4 @@ RSpec.describe PurchasePriceCalculator::Action do
 
     expect(calculated_total_price).to eq(item.price - example_discount)
   end
-
-
 end

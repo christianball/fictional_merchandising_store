@@ -1,8 +1,9 @@
-require_relative '../errors/errors.rb'
-require_relative '../value_objects/purchase_list.rb'
+# frozen_string_literal: true
+
+require_relative '../errors/errors'
+require_relative '../value_objects/purchase_list'
 
 class ItemsController < ApplicationController
-
   skip_forgery_protection if: -> { Rails.env.development? }
   # To allow local API testing of updating item records by developers
   # otherwise get ActionController::InvalidAuthenticityToken in ItemsController#update
@@ -42,11 +43,10 @@ class ItemsController < ApplicationController
   end
 
   def purchase_list_params
-    params.permit(list: [:item_id, :quantity])[:list]
+    params.permit(list: %i[item_id quantity])[:list]
   end
 
-  def serialize_item(item=nil)
-    (item || @item).as_json(except: [:created_at, :updated_at])
+  def serialize_item(item = nil)
+    (item || @item).as_json(except: %i[created_at updated_at])
   end
-
 end

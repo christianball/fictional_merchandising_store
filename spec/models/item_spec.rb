@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Item, :type => :model do
-
+RSpec.describe Item, type: :model do
   it 'is valid with valid attributes' do
     expect(Item.new(code: 'HAT', name: 'Reedsy Hat', price: 8.0)).to be_valid
   end
@@ -43,8 +44,7 @@ RSpec.describe Item, :type => :model do
 
     it 'is not valid when price is too low or too high' do
       expect(Item.new(code: 'HAT', name: 'Reedsy Hat', price: 0.1)).to_not be_valid
-      expect(Item.new(code: 'HAT', name: 'Reedsy Hat', price: 19999999)).to_not be_valid
+      expect(Item.new(code: 'HAT', name: 'Reedsy Hat', price: 19_999_999)).to_not be_valid
     end
   end
-
 end

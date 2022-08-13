@@ -1,0 +1,17 @@
+AllCops:
+  # Include:
+  #   - 'app'
+  #   - 'spec'
+
+  Exclude:
+    - 'db/*'
+    - 'config/*'
+    - 'script/*'
+    - 'bin/*'
+
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false

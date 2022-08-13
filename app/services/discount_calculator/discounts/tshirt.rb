@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module DiscountCalculator
   module Discounts
     class Tshirt
-
       CODE = 'TSHIRT'
       DISCOUNT_REQUIREMENT = 3
       DISCOUNT_PERCENTAGE_MULTIPLE = 0.3
@@ -16,7 +17,7 @@ module DiscountCalculator
       def amount
         return 0 if code_purchase_volume < DISCOUNT_REQUIREMENT
 
-        discount_amount = code_purchase_list.inject(0) do |discount, purchase|
+        code_purchase_list.inject(0) do |discount, purchase|
           discounted_item_price = DISCOUNT_PERCENTAGE_MULTIPLE * purchase.fetch(:item).price
           discount + discounted_item_price * purchase.fetch(:quantity).to_i
         end
@@ -33,7 +34,6 @@ module DiscountCalculator
       def code_purchase_volume
         code_purchase_list.pluck(:quantity).map(&:to_i).sum
       end
-
     end
   end
 end

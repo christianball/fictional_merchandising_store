@@ -1,7 +1,8 @@
-require_relative '../errors/errors.rb'
+# frozen_string_literal: true
+
+require_relative '../errors/errors'
 
 class PurchaseList
-
   include ActiveModel::Validations
 
   def initialize(input:)
@@ -23,5 +24,4 @@ class PurchaseList
       { item: item, quantity: quantity.to_i }
     end
   end
-
 end
