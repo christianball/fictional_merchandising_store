@@ -2,24 +2,114 @@ require 'rails_helper'
 
 RSpec.describe 'Checking total price', :type => :request do
 
-  it 'returns 200 with expected response' do
-    item = create(:item, code: 'TSHIRT', name: 'Tshirt', price: 20)
+  let(:mug) { create(:item, code: 'MUG', name: 'Reedsy Mug', price: 6) }
+  let(:tshirt) { create(:item, code: 'TSHIRT', name: 'Reedsy Tshirt', price: 15) }
+  let(:hoodie) { create(:item, code: 'HOODIE', name: 'Reedsy Hoodie', price: 20) }
 
+  it 'returns status: 200 and price: £41.0 for shopping list: 1 MUG, 1 TSHIRT, 1 HOODIE' do
     post '/items/total', params: {
       "list": [
           {
-              "item_id": "#{item.id}",
-              "quantity": "5"
+              "item_id": "#{mug.id}",
+              "quantity": "1"
+          },
+          {
+              "item_id": "#{tshirt.id}",
+              "quantity": "1"
+          },
+          {
+              "item_id": "#{hoodie.id}",
+              "quantity": "1"
           }
       ]
     }
 
     expect(response.content_type).to eq('application/json; charset=utf-8')
     expect(response).to have_http_status(200)
-    expect(response.body).to eq("Total price: £70.0")
+    expect(response.body).to eq('Total price: £41.0')
   end
 
-  it 'returns 404 with expected response when none of the specified items are found in database' do
+  it 'returns status: 200 and price: £69.0 for shopping list: 9 MUG, 1 TSHIRT' do
+    post '/items/total', params: {
+      "list": [
+          {
+              "item_id": "#{mug.id}",
+              "quantity": "9"
+          },
+          {
+              "item_id": "#{tshirt.id}",
+              "quantity": "1"
+          }
+      ]
+    }
+
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    expect(response).to have_http_status(200)
+    expect(response.body).to eq('Total price: £69.0')
+  end
+
+  it 'returns status: 200 and price: £73.8 for shopping list: 10 MUG, 1 TSHIRT' do
+    post '/items/total', params: {
+      "list": [
+          {
+              "item_id": "#{mug.id}",
+              "quantity": "10"
+          },
+          {
+              "item_id": "#{tshirt.id}",
+              "quantity": "1"
+          }
+      ]
+    }
+
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    expect(response).to have_http_status(200)
+    expect(response.body).to eq('Total price: £73.8')
+  end
+
+  it 'returns status: 200 and price: £279.9 for shopping list: 45 MUG, 3 TSHIRT' do
+    post '/items/total', params: {
+      "list": [
+          {
+              "item_id": "#{mug.id}",
+              "quantity": "45"
+          },
+          {
+              "item_id": "#{tshirt.id}",
+              "quantity": "3"
+          }
+      ]
+    }
+
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    expect(response).to have_http_status(200)
+    expect(response.body).to eq('Total price: £279.9')
+  end
+
+  it 'returns status: 200 and price: £902.0 for shopping list: 45 MUG, 3 TSHIRT' do
+    post '/items/total', params: {
+      "list": [
+          {
+              "item_id": "#{mug.id}",
+              "quantity": "200"
+          },
+          {
+              "item_id": "#{tshirt.id}",
+              "quantity": "4"
+          },
+          {
+              "item_id": "#{hoodie.id}",
+              "quantity": "1"
+          }
+      ]
+    }
+
+    expect(response.content_type).to eq('application/json; charset=utf-8')
+    expect(response).to have_http_status(200)
+    expect(response.body).to eq('Total price: £902.0')
+  end
+
+  it 'returns status: 404 with error message if no specified items are found in database' do
     post '/items/total', params: {
       "list": [
           {
