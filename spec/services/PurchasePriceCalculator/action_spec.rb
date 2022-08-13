@@ -2,20 +2,27 @@ require 'rails_helper'
 
 RSpec.describe PurchasePriceCalculator::Action do
 
-  it 'calculates the total price from a purchase list' do
-    tshirt = create(:item, code: 'TSHIRT', name: 'Tshirt', price: 6.00)
-    mug = create(:item, code: 'MUG', name: 'Mug', price: 15.00)
-    hoodie = create(:item, code: 'HOODIE', name: 'hoodie', price: 20.00)
+  it 'calculates a total price factoring in discount from provided discount calculator' do
+    item = create(:item, code: 'ITEM', name: 'Reedsy Item', price: 100)
 
     purchase_list = [
-      { item: tshirt, quantity: 2 },
-      { item: mug, quantity: 4},
-      { item: hoodie, quantity: 1}
+      { item: item, quantity: 1}
     ]
 
-    calculated_total_price = described_class.new(purchase_list: purchase_list).call
+    stubbed_discount_calculator_class = class_double(DiscountCalculator::Action)
 
-    expect(calculated_total_price).to eq(92)
+    example_discount = 25
+    stubbed_discount_calculator = instance_double(DiscountCalculator::Action, call: example_discount)
+
+    allow(stubbed_discount_calculator_class).to receive(:new).and_return(stubbed_discount_calculator)
+
+    calculated_total_price = described_class.new(
+      purchase_list: purchase_list,
+      discount_calculator: stubbed_discount_calculator_class
+    ).call
+
+    expect(calculated_total_price).to eq(item.price - example_discount)
   end
+
 
 end

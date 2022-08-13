@@ -1,8 +1,9 @@
 module PurchasePriceCalculator
   class Action
 
-    def initialize(purchase_list:)
+    def initialize(purchase_list:, discount_calculator: DiscountCalculator::Action)
       @purchase_list = purchase_list
+      @discount_calculator = discount_calculator
     end
 
     def call
@@ -11,7 +12,7 @@ module PurchasePriceCalculator
 
     private
 
-    attr_reader :purchase_list
+    attr_reader :purchase_list, :discount_calculator
 
     def total_price
       @total_price ||= purchase_list.reduce(0) do |total_cost, list_row|
@@ -27,7 +28,7 @@ module PurchasePriceCalculator
     end
 
     def total_discount
-      DiscountCalculator::Action.new(
+      discount_calculator.new(
         original_price: total_price, purchase_list: purchase_list
       ).call
     end
