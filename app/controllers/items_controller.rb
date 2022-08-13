@@ -1,4 +1,5 @@
 require_relative '../errors/errors.rb'
+require_relative '../value_objects/purchase_list.rb'
 
 class ItemsController < ApplicationController
 
