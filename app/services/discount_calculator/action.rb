@@ -22,13 +22,9 @@ module DiscountCalculator
 
     def product_code_discounts_total
       purchase_list.items.pluck(:code).inject(0) do |discount_total, item_code|
-        discount = DISCOUNTS[item_code]
+        return discount_total if DISCOUNTS[item_code].nil?
 
-        if discount.present?
-          discount_total + discount.new(purchase_list: purchase_list).amount
-        else
-          discount_total
-        end
+        discount_total + DISCOUNTS[item_code].new(purchase_list: purchase_list).amount
       end
     end
   end
