@@ -18,7 +18,7 @@ module DiscountCalculator
 
     private
 
-    attr_reader :original_price, :purchase_list
+    attr_reader :purchase_list
 
     def product_code_discounts_total
       purchase_list.items.pluck(:code).inject(0) do |discount_total, item_code|
