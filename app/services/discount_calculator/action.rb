@@ -21,7 +21,7 @@ module DiscountCalculator
     attr_reader :original_price, :purchase_list
 
     def product_code_discounts_total
-      purchase_list.pluck(:item).pluck(:code).inject(0) do |discount_total, item_code|
+      purchase_list.items.pluck(:code).inject(0) do |discount_total, item_code|
         discount = DISCOUNTS[item_code]
 
         if discount.present?

@@ -6,9 +6,7 @@ RSpec.describe PurchasePriceCalculator::Action do
   it 'calculates a total price factoring in discount from provided discount calculator' do
     item = create(:item, code: 'ITEM', name: 'Reedsy Item', price: 100)
 
-    purchase_list = [
-      { item: item, quantity: 1 }
-    ]
+    purchase_list = instance_double(PurchaseList, items: [item], total_price: 100)
 
     stubbed_discount_calculator_class = class_double(DiscountCalculator::Action)
 
