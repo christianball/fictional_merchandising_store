@@ -9,9 +9,9 @@ A Rails application/API for a fictional merchanidising store that sells trousers
 
 The API is comprised of REST endpoints and is designed to handle requests/responses in JSON format.
 
-Clients should send requests with body/payload in JSON only.
+Consumers should only send requests with the body/payload in JSON.
 
-Any request body must refer to items in the store by the same ID numbers provided by the API.
+Any request must refer to items in the store by the same ID numbers provided by the API.
 
 
 #### List items ####
