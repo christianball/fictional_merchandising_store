@@ -7,10 +7,8 @@ class PurchaseList
     @list = build_purchase_list(list_data)
   end
 
-  def each
-    for item in @list do
-      yield item
-    end
+  def each(&block)
+    @list.each(&block)
   end
 
   def total_price

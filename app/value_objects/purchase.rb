@@ -3,7 +3,6 @@
 require_relative '../errors/errors'
 
 class Purchase
-
   def initialize(item_id:, quantity:)
     @item = usable_item(item_id)
     @quantity = usable_quantity(quantity)
@@ -22,5 +21,4 @@ class Purchase
 
     quantity.to_i
   end
-
 end

@@ -52,7 +52,7 @@ module DiscountCalculator
 
         return percentage if index == code_purchase_volume
 
-        discount_percentage(index += 1, discount_level_base, percentage)
+        discount_percentage(index + 1, discount_level_base, percentage)
       end
     end
   end
