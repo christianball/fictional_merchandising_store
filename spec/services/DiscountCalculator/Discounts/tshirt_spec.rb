@@ -9,18 +9,9 @@ RSpec.describe DiscountCalculator::ProductCodeDiscounts::Tshirt do
     hoodie = create(:item, code: 'HOODIE', name: 'Hoodie', price: 30.0)
 
     purchase_list = [
-      {
-        item: tshirt_one,
-        quantity: '1'
-      },
-      {
-        item: tshirt_two,
-        quantity: '2'
-      },
-      {
-        item: hoodie,
-        quantity: '3'
-      }
+      instance_double(Purchase, item: tshirt_one, quantity: 1),
+      instance_double(Purchase, item: tshirt_two, quantity: 2),
+      instance_double(Purchase, item: hoodie, quantity: 3)
     ]
 
     calculated_discount = described_class.new(purchase_list: purchase_list).amount
@@ -33,14 +24,8 @@ RSpec.describe DiscountCalculator::ProductCodeDiscounts::Tshirt do
     hoodie = create(:item, code: 'HOODIE', name: 'Hoodie', price: 30.0)
 
     purchase_list = [
-      {
-        item: tshirt,
-        quantity: '2'
-      },
-      {
-        item: hoodie,
-        quantity: '100'
-      }
+      instance_double(Purchase, item: tshirt, quantity: 2),
+      instance_double(Purchase, item: hoodie, quantity: 100)
     ]
 
     calculated_discount = described_class.new(purchase_list: purchase_list).amount

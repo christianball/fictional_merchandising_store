@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../errors/errors'
-
 class PurchaseList
   include Enumerable
 
-  def initialize(input:)
-    @list = build_purchase_list(input)
+  def initialize(list_data:)
+    @list = build_purchase_list(list_data)
   end
 
   def each
@@ -17,34 +15,28 @@ class PurchaseList
 
   def total_price
     list.reduce(0) do |total_cost, list_row|
-      total_cost + individual_list_row_cost(list_row)
+      total_cost + list_row.quantity * list_row.item.price
     end
   end
 
   def items
-    list.pluck(:item)
+    list.map(&:item)
   end
 
   private
 
   attr_reader :list
 
-  def build_purchase_list(input)
-    input.map do |purchase_params|
-      item = Item.find(purchase_params['item_id'])
-
-      quantity = purchase_params['quantity']
-
-      raise(PurchaseListError, "Purchase quantity for item #{item.id} cannot be read") unless /\A\d+\Z/.match?(quantity)
-
-      { item: item, quantity: quantity.to_i }
+  def build_purchase_list(list_data)
+    list_data.map do |list_data_row|
+      Purchase.new(
+        item_id: list_data_row['item_id'],
+        quantity: list_data_row['quantity']
+      )
     end
   end
 
   def individual_list_row_cost(list_row)
-    item_quantity = list_row.fetch(:quantity)
-    item_price = list_row.fetch(:item).price
-
-    item_quantity * item_price
+    list_row.quantity * list_row.item.price
   end
 end

@@ -30,7 +30,7 @@ class ItemsController < ApplicationController
   end
 
   def total
-    purchase_list = PurchaseList.new(input: purchase_list_params)
+    purchase_list = PurchaseList.new(list_data: purchase_list_params)
     total_price = PurchasePriceCalculator::Action.new(purchase_list: purchase_list).call
 
     render json: "Total price: £#{total_price}", status: 200

@@ -18,8 +18,8 @@ module DiscountCalculator
         return 0 if code_purchase_volume < DISCOUNT_REQUIREMENT
 
         code_purchase_list.inject(0) do |discount, purchase|
-          discounted_item_price = DISCOUNT_PERCENTAGE_MULTIPLE * purchase.fetch(:item).price
-          discount + discounted_item_price * purchase.fetch(:quantity).to_i
+          discounted_item_price = DISCOUNT_PERCENTAGE_MULTIPLE * purchase.item.price
+          discount + discounted_item_price * purchase.quantity
         end
       end
 
@@ -28,11 +28,11 @@ module DiscountCalculator
       attr_reader :purchase_list
 
       def code_purchase_list
-        purchase_list.select { _1.fetch(:item).code == CODE }
+        purchase_list.select { _1.item.code == CODE }
       end
 
       def code_purchase_volume
-        code_purchase_list.pluck(:quantity).map(&:to_i).sum
+        code_purchase_list.sum(&:quantity)
       end
     end
   end
