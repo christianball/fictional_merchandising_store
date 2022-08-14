@@ -7,9 +7,11 @@ A Rails application/API for a fictional merchanidising store that sells trousers
 
 ## API ##
 
-The API is designed to work with JSON request bodies and render responses as JSON.
+The API is comprised of REST endpoints and is designed to handle requests/responses in JSON format.
 
-Any request body must refer to store items by the same ID numbers provided by the API.
+Clients should send requests with body/payload in JSON only.
+
+Any request body must refer to items in the store by the same ID numbers provided by the API.
 
 
 #### List items ####
@@ -18,7 +20,7 @@ Lists all items in the store:
 GET   /items
 ```
 #### Update item ####
-Update an item in the store:
+Updates an item in the store:
 ```
 PUT   /items/:id
 
